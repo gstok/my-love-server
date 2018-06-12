@@ -62,6 +62,7 @@ function invalid (obj) {
     }
 }
 
+let serverPoint = 8765;
 
 async function main () {
     let dal = new myDAL();
@@ -111,8 +112,8 @@ async function main () {
         .use(router.routes())
         .use(router.allowedMethods());
 
-    app.listen(5432);
-    console.log("服务已经启动，工作在 " + 5432 + " 端口...");
+    app.listen(serverPoint);
+    console.log("服务已经启动，工作在 " + serverPoint + " 端口...");
 }
 
 main ();
