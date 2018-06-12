@@ -4,7 +4,7 @@
   "description": "后台服务",
   "main": "./src/index.js",
   "scripts": {
-      "test": "node ./src/index.js"
+    "test": "node ./src/index.js"
   },
   "repository": "https://github.com/gstok/my-love-server",
   "author": "顾世豪 <gushihao@worken.cn>",
@@ -13,6 +13,7 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "koa": "^2.5.1",
+    "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "koa-static": "^4.0.3",
     "koa2-cors": "^2.0.5",
