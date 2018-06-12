@@ -8,7 +8,7 @@ const KoaBodyParser = require("koa-bodyparser");
 const MYSQL2 = require("mysql2/promise");
 const BlueBird = require("bluebird");
 
-
+const Result = require("./result");
 
 
 class myDAL {
@@ -101,7 +101,7 @@ async function main () {
         let pageIndex = invalid(reqBody.pageIndex) ? reqBody.pageIndex : 0;
         let pageSize = invalid(reqBody.pageSize) ? reqBody.pageSize : 20;
         let result = await dal.queryMsg(type, status, isSend, talker, content, opTime, tcTime, pageIndex, pageSize);
-        ctx.body = result;
+        ctx.body = Result.success(result, "查询成功");
     });
 
     app
