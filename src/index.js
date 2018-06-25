@@ -136,6 +136,15 @@ async function main () {
                     expiresIn: 60
                 }
             );
+
+            console.log("开始验证");
+            for (let i = 0; i < 100000; ++i) {
+                let result = JWT.verify(token, publicKey);
+                console.log(i, result);
+            }
+            console.log("结束验证");
+
+
             ctx.body = token;
         }
         else {
