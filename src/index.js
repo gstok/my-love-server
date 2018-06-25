@@ -7,6 +7,7 @@ const Koa2Cors = require("koa2-cors");
 const KoaBodyParser = require("koa-bodyparser");
 const MYSQL2 = require("mysql2/promise");
 const BlueBird = require("bluebird");
+const Axios = require("axios");
 
 const Result = require("./result");
 
@@ -103,6 +104,22 @@ async function main () {
         let pageSize = invalid(reqBody.pageSize) ? reqBody.pageSize : 20;
         let result = await dal.queryMsg(type, status, isSend, talker, content, opTime, tcTime, pageIndex, pageSize);
         ctx.body = Result.success(result, "查询成功");
+    });
+
+
+    router.get("/weChatLogin", async (ctx, next) => {
+        const appId = "wxbf89cbcf5526091c";
+        const appSecret = "55170b9dd5b97e11c79a31092283505e";
+        let reqBody = ctx.request.body;
+        let jsCode = ctx.query.code;
+        let reqUrl = `https://api.weixin.qq.com/sns/jscode2session?` +
+                        `appid=${ appId }&` +
+                        `secret=${ appSecret }&` +
+                        `js_code=${ jsCode }&` +
+                        `grant_type=authorization_code`;
+        let response = await Axios.get(reqUrl);
+        let data = response.data;
+        console.log(data);
     });
 
     app

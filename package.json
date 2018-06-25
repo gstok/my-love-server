@@ -11,6 +11,7 @@
   "license": "MIT",
   "private": false,
   "dependencies": {
+    "axios": "^0.18.0",
     "bluebird": "^3.5.1",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",
