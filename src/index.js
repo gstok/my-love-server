@@ -1,5 +1,6 @@
 
 
+const fs = require("fs");
 const Koa = require("koa");
 const KoaRouter = require("koa-router");
 const KoaStatic = require("koa-static");
@@ -8,6 +9,7 @@ const KoaBodyParser = require("koa-bodyparser");
 const MYSQL2 = require("mysql2/promise");
 const BlueBird = require("bluebird");
 const Axios = require("axios");
+const JWT = require("jsonwebtoken");
 
 const Result = require("./result");
 
@@ -65,6 +67,9 @@ function invalid (obj) {
 
 let serverPoint = 8765;
 
+const privateKey = fs.readFileSync(__dirname + "/keys/private.key");
+const publicKey = fs.readFileSync(__dirname + "/keys/public.key");
+
 async function main () {
     let dal = new myDAL();
     await dal.initConnection({
@@ -119,7 +124,23 @@ async function main () {
                         `grant_type=authorization_code`;
         let response = await Axios.get(reqUrl);
         let data = response.data;
-        console.log(data);
+        if (data["session_key"] && data["openid"]) {
+            let openId = data["openid"];
+            let token = JWT.sign(
+                {
+                    openId: openId
+                },
+                privateKey,
+                {
+                    algorithm: "RS256",
+                    expiresIn: 60
+                }
+            );
+            ctx.body = token;
+        }
+        else {
+            ctx.body = "无效code";
+        }
     });
 
     app
