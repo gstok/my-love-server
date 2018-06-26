@@ -152,6 +152,16 @@ async function main () {
         }
     });
 
+    // router.use("/haha", (ctx, next) => {
+    //     console.log("哈哈哈哈哈哈");
+    //     return next();
+    // });
+
+    router.post("/haha", (ctx, next) => {
+        let request = ctx.request;
+        ctx.body = ctx.request.rawBody;
+    });
+
     app
         .use(KoaBodyParser())
         .use(cors)
